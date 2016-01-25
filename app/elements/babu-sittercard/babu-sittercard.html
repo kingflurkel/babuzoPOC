@@ -77,22 +77,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       properties: {
         key: {
           type: String,
-          value: '',
-          notify: true,
           observer: "_keychanged"
-        },
-        sitter: {
-          type: Object
         }
       },
 
       _keychanged: function(){
+        console.log(this.key, "KEY");
         var self = this;
         var location = "https://babuzo-proto.firebaseio.com/bbs_profiles/"+this.key;
         var fb = new Firebase(location);
         fb.on("value", function(snap){
           console.log(snap.val());
-          self.sitter.firstname = snap.val().firstname;
+          self.firstname = snap.val().firstname;
         });
       }
     });
