@@ -14,7 +14,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/neon-animation/neon-animations.html">
 <link rel="import" href="../../bower_components/neon-animation/neon-animated-pages.html">
 <link rel="import" href="../../bower_components/neon-animation/neon-animatable.html">
-<link rel="import" href="../../bower_components/firebase-element/firebase-collection.html">
+<link rel="import" href="../../bower_components/firebase-element/firebase-document.html">
 <script src="../../bower_components/geofire/dist/geofire.min.js"></script>
 <link rel="import" href="../../bower_components/paper-drawer-panel/paper-drawer-panel.html">
 <link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
@@ -104,7 +104,6 @@ paper-header-panel {
 
     
 
-     <firebase-collection location="https://babuzo-proto.firebaseio.com/bbs_profiles" data="{{sitters}}"></firebase-collection>
 
     <paper-drawer-panel force-narrow="true" >
       <div drawer class="vertical layout">
@@ -132,18 +131,21 @@ paper-header-panel {
       <babu-filter></babu-filter>
     
     <template is="dom-repeat" items="{{ids}}">
-OK 
-      <span>{{item.key}}</span>
+      OKEE<span>{{item.key}}</span>
+
+     <firebase-document location="{{getLocation(item.key)}}" data="{{sitter}}"></firebase-document>
+
+      <span>{{sitter.key}}</span>
       <div class="sittercard">
 
 
         <div>
-          <img src="{{item.avatar_url}}" class="avatar">
+          <img src="{{sitter.avatar_url}}" class="avatar">
         </div>
 
         <div class="sitterinfo">
           <div class="firstname">
-             <h2>{{item.firstname}} </h2>
+             <h2>{{sitter.firstname}} </h2>
           </div>
         </div>
 
@@ -197,9 +199,12 @@ OK
 
       },
 
-_idschanged: function(){
-  console.log('ids changed...');
-},
+      getLocation: function(key) {
+        return "https://babuzo-proto.firebaseio.com/bbs_profiles/" + key;
+      },
+      _idschanged: function() {
+        console.log('ids changed...');
+      },
       _sitters: function() {
         console.log(this.sitters);
       },
