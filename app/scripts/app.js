@@ -17,9 +17,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   app.displayInstalledToast = function() {
     // Check to make sure caching is actually enabled—it won't be in the dev environment.
-    if (!document.querySelector('platinum-sw-cache').disabled) {
-      document.querySelector('#caching-complete').show();
-    }
+    // if (!document.querySelector('platinum-sw-cache').disabled) {
+    //   document.querySelector('#caching-complete').show();
+    // }
   };
 
   // Listen for template bound event to know when bindings
