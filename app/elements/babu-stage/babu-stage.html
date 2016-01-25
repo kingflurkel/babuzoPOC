@@ -42,40 +42,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
 
-      h2 {
-      font-family: 'Robotto', sans-serif;
-      font-size: 26px;
-      margin: 0px;
-      padding: 0px;
-        
-      }
-
-      .avatar {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        margin-right: 10px;
-      }
-
-      .sittercard {
-        width: 80%;
-        min-height: 80px; 
-        @apply(--layout-horizontal);
-        @apply(--layout-start);
-        background-color: rgba(255,255,255,0.15);
-        margin: 4px 0px 0px 4px;
-        box-sizing:border-box;
-        padding: 10px;
-        color: white;
-      }
-
-      .sittercard:hover {
-        background-color: white;
-/*        color: var(--babu-blue);*/
-        color: black;
-
-      }
-
 
       .sitterinfo {
         @apply(--layout-start);
@@ -133,20 +99,7 @@ paper-header-panel {
     
     <template is="dom-repeat" items="{{sitters}}">
 
-      <div class="sittercard">
-
-
-        <div>
-          <img src="{{item.avatar_url}}" class="avatar">
-        </div>
-
-        <div class="sitterinfo">
-          <div class="firstname">
-             <h2>{{item.firstname}} </h2>
-          </div>
-        </div>
-
-      </div>
+      <babu-sittercard></babu-sittercard>
 
 
      </template>
