@@ -70,6 +70,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
      <firebase-collection location="https://babuzo-proto.firebaseio.com/bbs_profiles" data="{{sitters}}"></firebase-collection>
 
+<<<<<<< Updated upstream
     <paper-drawer-panel force-narrow="true" >
       <div drawer class="vertical layout">
 
@@ -105,6 +106,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </div>
       </div>
 
+=======
+     <template is="dom-repeat" items="{{sitters}}">
+      <div>{{item.firstname}}</div>
+      <div>{{item.description}}</div>
+      <div><img src="{{item.avatar_url}}" class="avatar"></div>
+>>>>>>> Stashed changes
      </template>
 
 
