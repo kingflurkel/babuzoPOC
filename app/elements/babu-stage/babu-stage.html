@@ -14,6 +14,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/neon-animation/neon-animations.html">
 <link rel="import" href="../../bower_components/neon-animation/neon-animated-pages.html">
 <link rel="import" href="../../bower_components/neon-animation/neon-animatable.html">
+<link rel="import" href="../../bower_components/firebase-element/firebase-collection.html">
+<link rel="import" href="../bower_components/paper-drawer-panel/paper-drawer-panel.html">
 
 <dom-module id="babu-stage">
   <template>
@@ -22,19 +24,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
         width: 100vw;
         height: 100vh;
-
       }
 
       neon-animated-pages {
-        height: 100%;
+        height: 100vh;
       }
 
       .canvas {
         width: 100%;
         height: 100%;
         background-color: #73D1A1;
-        @apply(--layout-center-center);
+        @apply(--layout-center);
         @apply(--layout-vertical);
+        overflow-y: scroll; 
       }
 
 
@@ -43,20 +45,69 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         
       }
 
+      .avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+      }
+
+      .sittercard {
+        width: 80%;
+        @apply(--layout-horizontal);
+        @apply(--layout-start);
+        background-color: white;
+        margin: 4px 0px 0px 4px;
+      }
+
+      paper-drawer-panel {
+        height: 100%;
+      }
+
+
     </style>
 
     
 
      <firebase-collection location="https://babuzo-proto.firebaseio.com/bbs_profiles" data="{{sitters}}"></firebase-collection>
 
+    <paper-drawer-panel force-narrow="true" >
+      <div drawer class="vertical layout">
+
+        <h2>Babysitters bangbus</h2>
+
+<!--         <small>{{userid}}</small> -->
+
+      </div>
+
+          <div main>
 
 
-    <neon-animated-pages id="babupages">
+
+    <neon-animated-pages id="babupages" selected="{{selected}}" 
+            entry-animation="{{entryAnimation}}"
+            exit-animation="{{exitAnimation}}"
+
+    >
     <neon-animatable>
     <div class="canvas" on-tap="gotoNext">
-      <h2>
-      HAllo
-      </h2>
+    
+    <template is="dom-repeat" items="{{sitters}}">
+
+      <div class="sittercard">
+
+
+        <div>
+          <img src="{{item.avatar_url}}" class="avatar">
+        </div>
+
+        <div class="firstname">
+           <h2>{{item.firstname}} </h2>
+        </div>
+      </div>
+
+     </template>
+
+
     </div>
     </neon-animatable>
      <neon-animatable>
@@ -68,8 +119,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </neon-animatable>
  
     </neon-animated-pages>
+          </div>
 
-    
+  </paper-drawer-panel>
+
   </template>
   <script>
   (function() {
@@ -83,6 +136,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type: String,
           value: 'babu-stage',
           notify: true
+        },
+        sitters: {
+          observer: "_sitters"
         }
       },
 
@@ -94,9 +150,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         // this.$.babupages.selected ++1;
         console.log('loggertje');
         this.$.babupages.selected = this.$.babupages.selected+1;
+      },
+
+
+
+      _sitters: function(){
+        console.log(this.sitters);
       }
-
-
 
     });
   })();
