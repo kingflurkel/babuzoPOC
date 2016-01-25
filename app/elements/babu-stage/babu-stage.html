@@ -42,6 +42,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       h2 {
       font-family: 'Montserrat', sans-serif;
+      margin: 0px;
+      padding: 0px;
         
       }
 
@@ -53,10 +55,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       .sittercard {
         width: 80%;
+        min-height: 80px; 
         @apply(--layout-horizontal);
         @apply(--layout-start);
-        background-color: white;
+        background-color: rgba(255,255,255,0.25);
         margin: 4px 0px 0px 4px;
+        box-sizing:border-box;
+        padding: 10px;
+      }
+
+      .sittercard:hover {
+        background-color: white;
+      }
+
+
+      .sitterinfo {
+        @apply(--layout-start);
+        @apply(--layout-vertical);
       }
 
       paper-drawer-panel {
@@ -100,9 +115,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <img src="{{item.avatar_url}}" class="avatar">
         </div>
 
-        <div class="firstname">
-           <h2>{{item.firstname}} </h2>
+        <div class="sitterinfo">
+          <div class="firstname">
+             <h2>{{item.firstname}} </h2>
+          </div>
         </div>
+
       </div>
 
 
