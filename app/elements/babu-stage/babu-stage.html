@@ -9,79 +9,215 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<!-- Neon elements -->
+<link rel="import" href="../../bower_components/neon-animation/neon-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animations.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animated-pages.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animatable.html">
 <link rel="import" href="../../bower_components/firebase-element/firebase-collection.html">
 <script src="../../bower_components/geofire/dist/geofire.min.js"></script>
+<link rel="import" href="../../bower_components/paper-drawer-panel/paper-drawer-panel.html">
 <dom-module id="babu-stage">
   <template>
     <style>
       :host {
         display: block;
+        width: 100vw;
+        height: 100vh;
       }
+
+      neon-animated-pages {
+        height: 100vh;
+      }
+
+      .canvas {
+        width: 100%;
+        height: 100%;
+        background-color: #73D1A1;
+        @apply(--layout-center);
+        @apply(--layout-vertical);
+        overflow-y: scroll; 
+      }
+
+
+      h2 {
+      font-family: 'Montserrat', sans-serif;
+      margin: 0px;
+      padding: 0px;
+        
+      }
+
       .avatar {
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
+        margin-right: 10px;
       }
+
+      .sittercard {
+        width: 80%;
+        min-height: 80px; 
+        @apply(--layout-horizontal);
+        @apply(--layout-start);
+        background-color: rgba(255,255,255,0.25);
+        margin: 4px 0px 0px 4px;
+        box-sizing:border-box;
+        padding: 10px;
+        color: black;
+      }
+
+      .sittercard:hover {
+        background-color: white;
+      }
+
+
+      .sitterinfo {
+        @apply(--layout-start);
+        @apply(--layout-vertical);
+      }
+
+      paper-drawer-panel {
+        height: 100%;
+      }
+
+
     </style>
+
+    
+
      <firebase-collection location="https://babuzo-proto.firebaseio.com/bbs_profiles" data="{{sitters}}"></firebase-collection>
 
-     <template is="dom-repeat" items="{{sitters}}">
-      <div>{{item.firstname}}</div>
-      <div><img src="{{item.avatar_url}}" class="avatar"></div>
+    <paper-drawer-panel force-narrow="true" >
+      <div drawer class="vertical layout">
+
+        <h2>Babysitters bangbus</h2>
+
+<!--         <small>{{userid}}</small> -->
+
+      </div>
+
+          <div main>
+
+
+
+    <neon-animated-pages id="babupages" selected="{{selected}}" 
+            entry-animation="{{entryAnimation}}"
+            exit-animation="{{exitAnimation}}">
+    <neon-animatable>
+    <div class="canvas" on-tap="gotoNext">
+
+      <babu-filter></babu-filter>
+    
+    <template is="dom-repeat" items="{{ids}}">
+OK 
+      <span>{{item.key}}</span>
+      <div class="sittercard">
+
+
+        <div>
+          <img src="{{item.avatar_url}}" class="avatar">
+        </div>
+
+        <div class="sitterinfo">
+          <div class="firstname">
+             <h2>{{item.firstname}} </h2>
+          </div>
+        </div>
+
+      </div>
+
+
      </template>
+
+
+    </div>
+    </neon-animatable>
+     <neon-animatable>
+    <div class="canvas" on-tap="gotoNext">
+      <h2>
+      2
+      </h2>
+    </div>
+    </neon-animatable>
+ 
+    </neon-animated-pages>
+          </div>
+
+  </paper-drawer-panel>
+
   </template>
   <script>
   (function() {
-      'use strict';
+    'use strict';
 
-      Polymer({
-          is: 'babu-stage',
+    Polymer({
+      is: 'babu-stage',
 
-          properties: {
-            foo: {
-              type: String,
-              value: 'babu-stage',
-              notify: true
-            },
-            sitters: {
-              observer: "_sitters"
-            },
-            lat: {
-              type: Number
-            },
-            lon: {
-              type: Number
-            }
-          },
+      properties: {
+        foo: {
+          type: String,
+          value: 'babu-stage',
+          notify: true
+        },
+        sitters: {
+          observer: "_sitters"
+        },
+        latitude: {
+          type: Number
+        },
+        longitude: {
+          type: Number
+        },
+        ids: {
+          type: Array,
+          observer: "_idschanged"
+        },
 
-          _sitters: function() {
-            console.log(this.sitters);
-          },
+      },
 
-          ready: function() {
+_idschanged: function(){
+  console.log('ids changed...');
+},
+      _sitters: function() {
+        console.log(this.sitters);
+      },
 
-            var bbslocref = new Firebase("https://babuzo-proto.firebaseio.com/bbs_locations/");
-            var geoFire = new GeoFire(bbslocref);
-            var ids = [];
 
-            var geoQuery = geoFire.query({
-              center: [this.lat, this.lng],
-              radius: 10
-            });
+      gotoNext: function() {
+        // this.$.babupages.selected ++1;
+        console.log('loggertje');
+        this.$.babupages.selected = this.$.babupages.selected + 1;
+      },
 
-            var onKeyEnteredRegistration = geoQuery.on("key_entered", function(key, location, distance) {
-              ids.push({
-                key: key,
-                distance: distance
-              });
-            });
+      ready: function() {
 
-            var onReadyRegistration = geoQuery.on("ready", function() {
-              cb(null, ids);
-            });
 
-          }
-        
+        this.$.babupages.selected = 0;
 
-      });
+        var bbslocref = new Firebase("https://babuzo-proto.firebaseio.com/bbs_locations/");
+        var geoFire = new GeoFire(bbslocref);
+        var ids = [];
+
+        var geoQuery = geoFire.query({
+          center: [this.latitude, this.longitude],
+          radius: 10
+        });
+        var self = this;
+        var onKeyEnteredRegistration = geoQuery.on("key_entered", function(key, location, distance) {
+          ids.push({
+            key: key,
+            distance: distance
+          });
+        });
+
+        var onReadyRegistration = geoQuery.on("ready", function() {
+          self.ids = ids;
+          console.log('ik zen klaar');
+        });
+
+      }
+
+    });
   })();
   </script>
 </dom-module>
