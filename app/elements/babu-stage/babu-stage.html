@@ -10,7 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/firebase-element/firebase-collection.html">
-
+<script src="../../bower_components/geofire/dist/geofire.min.js"></script>
 <dom-module id="babu-stage">
   <template>
     <style>
@@ -30,27 +30,58 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </template>
   <script>
   (function() {
-    'use strict';
+      'use strict';
 
-    Polymer({
-      is: 'babu-stage',
+      Polymer({
+          is: 'babu-stage',
 
-      properties: {
-        foo: {
-          type: String,
-          value: 'babu-stage',
-          notify: true
-        },
-        sitters: {
-          observer: "_sitters"
-        }
-      },
+          properties: {
+            foo: {
+              type: String,
+              value: 'babu-stage',
+              notify: true
+            },
+            sitters: {
+              observer: "_sitters"
+            },
+            lat: {
+              type: Number
+            },
+            lon: {
+              type: Number
+            }
+          },
 
-      _sitters: function(){
-        console.log(this.sitters);
-      }
+          _sitters: function() {
+            console.log(this.sitters);
+          },
 
-    });
+          ready: function() {
+
+            var bbslocref = new Firebase("https://babuzo-proto.firebaseio.com/bbs_locations/");
+            var geoFire = new GeoFire(bbslocref);
+            var ids = [];
+
+            var geoQuery = geoFire.query({
+              center: [this.lat, this.lng],
+              radius: 10
+            });
+
+            var onKeyEnteredRegistration = geoQuery.on("key_entered", function(key, location, distance) {
+              ids.push({
+                key: key,
+                distance: distance
+              });
+            });
+
+            var onReadyRegistration = geoQuery.on("ready", function() {
+              cb(null, ids);
+            });
+
+          }
+        
+
+      });
   })();
   </script>
 </dom-module>
