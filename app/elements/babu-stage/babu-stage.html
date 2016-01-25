@@ -102,11 +102,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <neon-animated-pages id="babupages" selected="{{selected}}" 
             entry-animation="{{entryAnimation}}"
-            exit-animation="{{exitAnimation}}"
-
-    >
+            exit-animation="{{exitAnimation}}">
     <neon-animatable>
     <div class="canvas" on-tap="gotoNext">
+
+      <babu-filter></babu-filter>
     
     <template is="dom-repeat" items="{{sitters}}">
 
