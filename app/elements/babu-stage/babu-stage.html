@@ -15,7 +15,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/neon-animation/neon-animated-pages.html">
 <link rel="import" href="../../bower_components/neon-animation/neon-animatable.html">
 <link rel="import" href="../../bower_components/firebase-element/firebase-collection.html">
-<link rel="import" href="../bower_components/paper-drawer-panel/paper-drawer-panel.html">
+<link rel="import" href="../../bower_components/paper-drawer-panel/paper-drawer-panel.html">
 
 <dom-module id="babu-stage">
   <template>
@@ -70,7 +70,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
      <firebase-collection location="https://babuzo-proto.firebaseio.com/bbs_profiles" data="{{sitters}}"></firebase-collection>
 
-<<<<<<< Updated upstream
     <paper-drawer-panel force-narrow="true" >
       <div drawer class="vertical layout">
 
@@ -106,12 +105,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </div>
       </div>
 
-=======
-     <template is="dom-repeat" items="{{sitters}}">
-      <div>{{item.firstname}}</div>
-      <div>{{item.description}}</div>
-      <div><img src="{{item.avatar_url}}" class="avatar"></div>
->>>>>>> Stashed changes
+
      </template>
 
 
