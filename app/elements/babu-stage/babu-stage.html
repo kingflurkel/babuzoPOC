@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/firebase-element/firebase-collection.html">
 
 <dom-module id="babu-stage">
   <template>
@@ -16,10 +17,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
       }
+      .avatar {
+        border-radius: 50%;
+      }
     </style>
      <firebase-collection location="https://babuzo-proto.firebaseio.com/bbs_profiles" data="{{sitters}}"></firebase-collection>
 
-    
+     <template is="dom-repeat" items="{{sitters}}">
+      <div>{{item.firstname}}</div>
+      <div><img src="{{item.avatar_url}}" class="avatar"></div>
+     </template>
   </template>
   <script>
   (function() {
@@ -33,8 +40,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type: String,
           value: 'babu-stage',
           notify: true
+        },
+        sitters: {
+          observer: "_sitters"
         }
+      },
+
+      _sitters: function(){
+        console.log(this.sitters);
       }
+
     });
   })();
   </script>
