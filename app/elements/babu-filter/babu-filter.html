@@ -15,7 +15,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style>
       :host {
         display: block;
+        width: 100%;
+        background-color: white;
+      font-family: 'Robotto', sans-serif;
+/*        color: var(--babu-blue);*/
+
       }
+
+      .filtercanvas {
+        width: 100%;
+        box-sizing:border-box;
+        padding: 10vh 10% 10vh 10%;
+      }
+
+      .filtercanvas h2 {
+        font-size: 32px;
+      }
+
     </style>
     <div>
     <!-- // sorteren op:
@@ -24,6 +40,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       prijs -->
       5 sterren | aantal gigs | € hoog laag
     </div>
+
   </template>
   <script>
   (function() {
