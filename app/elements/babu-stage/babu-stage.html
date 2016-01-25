@@ -9,15 +9,65 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<!-- Neon elements -->
+<link rel="import" href="../../bower_components/neon-animation/neon-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animations.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animated-pages.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animatable.html">
 
 <dom-module id="babu-stage">
   <template>
     <style>
       :host {
         display: block;
+        width: 100vw;
+        height: 100vh;
+
       }
+
+      neon-animated-pages {
+        height: 100%;
+      }
+
+      .canvas {
+        width: 100%;
+        height: 100%;
+        background-color: #73D1A1;
+        @apply(--layout-center-center);
+        @apply(--layout-vertical);
+      }
+
+
+      h2 {
+      font-family: 'Montserrat', sans-serif;
+        
+      }
+
     </style>
+
+    
+
      <firebase-collection location="https://babuzo-proto.firebaseio.com/bbs_profiles" data="{{sitters}}"></firebase-collection>
+
+
+
+    <neon-animated-pages id="babupages">
+    <neon-animatable>
+    <div class="canvas" on-tap="gotoNext">
+      <h2>
+      HAllo
+      </h2>
+    </div>
+    </neon-animatable>
+     <neon-animatable>
+    <div class="canvas" on-tap="gotoNext">
+      <h2>
+      2
+      </h2>
+    </div>
+    </neon-animatable>
+ 
+    </neon-animated-pages>
 
     
   </template>
@@ -34,7 +84,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           value: 'babu-stage',
           notify: true
         }
+      },
+
+      ready: function(){
+        this.$.babupages.selected = 0;
+      },
+
+      gotoNext: function(){
+        // this.$.babupages.selected ++1;
+        console.log('loggertje');
+        this.$.babupages.selected = this.$.babupages.selected+1;
       }
+
+
+
     });
   })();
   </script>
